@@ -1,0 +1,31 @@
+kind: pipeline
+type: docker
+name: build drone kustomize
+
+steps:
+  - name: publish
+    image: plugins/gcr
+    settings:
+      registry: asia.gcr.io
+      repo: mamilove-160706/drone/kustomize
+      json_key:
+        from_secret: GCR_AUTH_KEY
+      build_args:
+        - TARGETOS=linux
+        - TARGETARCH=amd64
+        - KUBECTL_VERSION=1.19.4
+        - KUSTOMIZE_VERSION=3.8.7
+      tags:
+        - ${DRONE_TAG}
+      context: docker
+      dockerfile: docker/Dockerfile
+
+trigger:
+  branch:
+    - master
+  event:
+    - tag
+  when:
+    ref:
+      - refs/heads/master
+      - refs/tags/*
