@@ -16,16 +16,17 @@ steps:
         - KUBECTL_VERSION=1.19.4
         - KUSTOMIZE_VERSION=3.8.7
       tags:
-        - ${DRONE_TAG}
+        - ${DRONE_TAG:1}
       context: docker
       dockerfile: docker/Dockerfile
+    when:
+      ref:
+        include:
+          - refs/heads/master
+          - refs/tags/v*
 
 trigger:
   branch:
     - master
   event:
     - tag
-  when:
-    ref:
-      - refs/heads/master
-      - refs/tags/*
