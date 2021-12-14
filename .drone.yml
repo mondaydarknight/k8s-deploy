@@ -13,8 +13,8 @@ steps:
       build_args:
         - TARGETOS=linux
         - TARGETARCH=amd64
-        - KUBECTL_VERSION=1.19.4
-        - KUSTOMIZE_VERSION=3.8.7
+        - KUBECTL_VERSION=1.20.5
+        - KUSTOMIZE_VERSION=4.0.5
       tags:
         - ${DRONE_TAG:1}
       context: docker
