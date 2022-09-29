@@ -2,6 +2,8 @@
 set -euxo pipefail
 
 echo "::group::Setup K8S cluster"
+echo "cluster: ${INPUT_CLUSTER} context: ${INPUT_CONTEXT} server: ${INPUT_SERVER} user: ${INPUT_USER}"
+
 kubectl config set-cluster ${INPUT_CLUSTER} --server=${INPUT_SERVER} --insecure-skip-tls-verify=true
 kubectl config set-credentials ${INPUT_USER} --token=${INPUT_TOKEN}
 kubectl config set-context ${INPUT_CONTEXT} --cluster=${INPUT_CLUSTER} --user=${INPUT_USER}
