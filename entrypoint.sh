@@ -8,8 +8,5 @@ kubectl config set-context ${INPUT_CONTEXT} --cluster=${INPUT_CLUSTER} --user=${
 kubectl config use-context ${INPUT_CONTEXT}
 
 cd ${INPUT_TEMPLATE_PATH}
-kubectl cluster-info
-kubectl config get-contexts
-kubectl config view
 kubectl apply -k .
 echo "::endgroup::"
