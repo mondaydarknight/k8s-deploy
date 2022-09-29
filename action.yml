@@ -11,6 +11,10 @@ inputs:
   server:
     description: The server URL for context entry in kubeconfig.
     required: true
+  template_path:
+    description: The path.
+    required: false
+    default: '.'
   token:
     description: Bearer token for authentication to the API server.
     required: true
