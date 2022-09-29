@@ -1,0 +1,22 @@
+name: k8s-deploy
+author: UPN
+description: Build Kubernetes cluster.
+inputs:
+  cluster:
+    description: The cluster name for context entry in kubeconfig.
+    required: true
+  context:
+    description: The name of the kubeconfig context to use.
+    required: true
+  server:
+    description: The server URL for context entry in kubeconfig.
+    required: true
+  token:
+    description: Bearer token for authentication to the API server.
+    required: true
+  user:
+    description: The username for context entry in kubeconfig.
+    required: true
+runs:
+  using: docker
+  image: Dockerfile

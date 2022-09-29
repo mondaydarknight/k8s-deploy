@@ -1,0 +1,59 @@
+name: deploy-k3d-resources
+on: [push, pull_request]
+jobs:
+  deploy-k3d-resources:
+    runs-on: ubuntu-latest
+    name: Deploying Kubernetes resources
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup K3D cluster
+        env:
+          CLUSTER_NAME: test
+          CLUSTER_NETWORK: ci
+          K3D_TAG: v5.4.6
+          K8S_USER: deploy-bot
+        id: setup-k3s-k3d-cluster
+        run: |
+          echo "::group::Setup K3S"
+          curl -sfL https://get.k3s.io | sh -s -
+          echo "::endgroup::"
+
+          echo "::group::Setup K3D ${K3D_TAG}"
+          curl -sfL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=${K3D_TAG:-} bash
+          k3d --version
+          echo "::endgroup::"
+
+          echo "::group::Setup K3D cluster"
+          k3d cluster create ${CLUSTER_NAME} --network ${CLUSTER_NETWORK} --no-lb
+          kubectl config use-context k3d-${CLUSTER_NAME}
+          kubectl config get-contexts
+          docker inspect ${CLUSTER_NETWORK} | grep IPv4Address
+          echo "::endgroup::"
+
+          echo "::group::Create service account for deployment pipeline"
+          kubectl -n kube-system create serviceaccount ${K8S_USER}
+          kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:${K8S_USER}
+          echo K8S_TOKEN=$(kubectl -n kube-system create token ${K8S_USER}) >> $GITHUB_ENV
+          echo "::endgroup::"
+        shell: bash
+      - name: Setup K3D cluster
+        uses: ./
+        with:
+          cluster: k3d-test
+          context: k3d-test
+          server: https://localhost:6443
+          token: ${{ env.K8S_TOKEN }}
+          user: deploy-bot
+      - name: Build a pod
+        run: |
+          cat <<EOF | kubectl apply -f -
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              name: hello-world
+            spec:
+              containers:
+                - name: hello-world-container
+                  image: busybox
+                  command: ["/bin/sh", "-c", "echo 'Hello World'"]
+          EOF
