@@ -42,18 +42,19 @@ jobs:
           cluster: k3d-test
           context: k3d-test
           server: https://localhost:6443
+          template_path: ./kubernetes
           token: ${{ env.K8S_TOKEN }}
           user: deploy-bot
-      - name: Build a pod
-        run: |
-          cat <<EOF | kubectl apply -f -
-            apiVersion: v1
-            kind: Pod
-            metadata:
-              name: hello-world
-            spec:
-              containers:
-                - name: hello-world-container
-                  image: busybox
-                  command: ["/bin/sh", "-c", "echo 'Hello World'"]
-          EOF
+      # - name: Build a pod
+      #   run: |
+      #     cat <<EOF | kubectl apply -f -
+      #       apiVersion: v1
+      #       kind: Pod
+      #       metadata:
+      #         name: hello-world
+      #       spec:
+      #         containers:
+      #           - name: hello-world-container
+      #             image: busybox
+      #             command: ["/bin/sh", "-c", "echo 'Hello World'"]
+      #     EOF
