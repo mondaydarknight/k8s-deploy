@@ -34,14 +34,15 @@ jobs:
           kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:${K8S_USER}
           echo "::set-output name=token::$(kubectl -n kube-system create token ${K8S_USER})"
           docker network ls
+          docker ps
           echo "::endgroup::"
         shell: bash
-      # - name: Setup K3D cluster
-      #   uses: ./
-      #   with:
-      #     cluster: k3d-test
-      #     context: k3d-test
-      #     server: https://localhost:6443
-      #     template_path: ./kubernetes
-      #     token: ${{ steps.setup-k3s-k3d-cluster.outputs.token }}
-      #     user: deploy-bot
+      - name: Setup K3D cluster
+        uses: ./
+        with:
+          cluster: k3d-test
+          context: k3d-test
+          server: https://localhost:6443
+          template_path: ./kubernetes
+          token: ${{ steps.setup-k3s-k3d-cluster.outputs.token }}
+          user: deploy-bot
