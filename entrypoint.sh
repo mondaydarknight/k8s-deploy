@@ -9,6 +9,7 @@ kubectl config use-context ${INPUT_CONTEXT}
 echo "::endgroup::"
 
 echo "::group::Deploy K8S cluster"
+ls -al
 cd ${INPUT_TEMPLATE_PATH}
 kubectl apply -k .
 echo "::endgroup::"
