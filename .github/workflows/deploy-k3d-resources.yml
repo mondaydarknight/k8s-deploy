@@ -33,7 +33,7 @@ jobs:
           echo "::group::Create service account for deployment pipeline"
           kubectl -n kube-system create serviceaccount ${K8S_USER}
           kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:${K8S_USER}
-          echo K8S_TOKEN=$(kubectl -n kube-system create token ${K8S_USER}) >> $GITHUB_ENV
+          echo K8S_TOKEN=$(kubectl -n kube-system create token ${K8S_USER}) >> ${GITHUB_ENV}
           echo "::endgroup::"
         shell: bash
       - name: Setup K3D cluster
