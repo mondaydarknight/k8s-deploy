@@ -27,8 +27,7 @@ jobs:
           k3d cluster create ${CLUSTER_NAME} --no-lb
           kubectl config use-context k3d-${CLUSTER_NAME}
           kubectl config get-contexts
-          docker inspect ${CLUSTER_NETWORK} | grep IPv4Address
-          echo "::endgroup::"
+          echo "::endgroup:git:"
 
           echo "::group::Create service account for deployment pipeline"
           kubectl -n kube-system create serviceaccount ${K8S_USER}
