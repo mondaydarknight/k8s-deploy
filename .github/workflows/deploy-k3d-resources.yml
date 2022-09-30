@@ -34,7 +34,7 @@ jobs:
           kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:${K8S_USER}
           echo "::set-output name=token::$(kubectl -n kube-system create token ${K8S_USER})"
           docker network ls
-          docker inspect ${CLUSTER_NETWORK} | grep IPAddress
+          docker inspect ${CLUSTER_NETWORK} | grep IPv4Address
           docker ps
           echo "::endgroup::"
         shell: bash
