@@ -42,7 +42,7 @@ jobs:
         with:
           cluster: k3d-test
           context: k3d-test
-          server: https://localhost:6443
+          server: https://k3d-test-server-0:33109
           template_path: ./kubernetes
           token: ${{ steps.setup-k3s-k3d-cluster.outputs.token }}
           user: deploy-bot
