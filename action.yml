@@ -1,0 +1,30 @@
+name: k8s-setup
+author: UPN
+description: Build Kubernetes cluster.
+inputs:
+  cluster:
+    description: The cluster name for context entry in kubeconfig.
+    required: true
+  context:
+    description: The name of the kubeconfig context to use.
+    required: true
+  server:
+    description: The server URL for context entry in kubeconfig.
+    required: true
+  template_path:
+    description: The directory that contains configuration files to apply.
+    required: false
+    default: '.'
+  token:
+    description: Bearer token for authentication to the API server.
+    required: true
+  user:
+    description: The username for context entry in kubeconfig.
+    required: true
+  validate:
+    description: Determine whether the cluster validate the input schema.
+    required: false
+    default: false
+runs:
+  using: docker
+  image: Dockerfile
