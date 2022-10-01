@@ -21,6 +21,10 @@ inputs:
   user:
     description: The username for context entry in kubeconfig.
     required: true
+  validate:
+    description: Determine whether the cluster validate the input schema.
+    required: false
+    default: 'false'
 runs:
   using: docker
   image: Dockerfile

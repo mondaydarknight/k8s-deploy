@@ -9,7 +9,7 @@ kubectl config use-context ${INPUT_CONTEXT}
 echo "::endgroup::"
 
 echo "::group::Deploy K8S cluster"
-[[ ${INPUT_VALIDATED} == 'true' ]] && K8S_ARGS='--validate=true --dry-run=client'
+[[ ${INPUT_VALIDATE} == 'true' ]] && K8S_ARGS='--validate=true --dry-run=client'
 cd ${INPUT_TEMPLATE_PATH}
 kubectl apply ${K8S_ARGS} -k .
 echo "::endgroup::"
