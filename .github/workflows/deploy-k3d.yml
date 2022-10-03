@@ -49,3 +49,4 @@ jobs:
           template_path: ./kubernetes
           token: ${{ steps.setup-k3s-k3d-cluster.outputs.token }}
           user: deploy-bot
+          validate: true
